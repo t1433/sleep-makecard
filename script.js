@@ -156,7 +156,7 @@ const subSkills = [
 
 const subSkillSelects = document.querySelectorAll(".subSkill");
 
-subSkillSelects.forEach(select => {
+function createSubSkillOptions(select) {
   const empty = document.createElement("option");
   empty.value = "";
   empty.textContent = "なし";
@@ -168,9 +168,41 @@ subSkillSelects.forEach(select => {
     option.textContent = skill.name;
     select.appendChild(option);
   });
+}
 
-  select.addEventListener("change", updateMaxCarry);
+subSkillSelects.forEach(createSubSkillOptions);
+
+function updateSubSkillOptions() {
+  const selected = Array.from(subSkillSelects)
+    .map(sel => sel.value)
+    .filter(v => v !== "");
+
+  subSkillSelects.forEach(select => {
+    Array.from(select.options).forEach(option => {
+      if (option.value === "") return;
+
+      option.disabled =
+        selected.includes(option.value) &&
+        select.value !== option.value;
+    });
+  });
+}
+function updateSubSkillColor(select) {
+  select.classList.remove("white", "blue", "gold");
+
+  const skill = subSkills[select.value];
+  if (skill) {
+    select.classList.add(skill.rarity);
+  }
+}
+subSkillSelects.forEach(select => {
+  select.addEventListener("change", () => {
+    updateSubSkillOptions();    // 重複不可
+    updateSubSkillColor(select); // 背景色保持
+    updateMaxCarry();           // 最大所持数再計算
+  });
 });
+
 
 // ===== 最大所持数 =====
 function calcSleepBonus(hours) {
