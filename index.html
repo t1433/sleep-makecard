@@ -1,72 +1,162 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>ポケモンスリープ ポケモン紹介カード</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f6f6f6;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    section {
+      background: white;
+      padding: 16px;
+      margin-bottom: 20px;
+      border-radius: 10px;
+    }
+
+    section h2 {
+      margin-top: 0;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 6px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 4px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 6px;
+      font-size: 14px;
+    }
+
+    .inline {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .readonly-box {
+      padding: 8px;
+      background: #eee;
+      border-radius: 6px;
+    }
+  </style>
 </head>
 <body>
 
 <h1>ポケモンスリープ ポケモン紹介カード</h1>
 
-<div class="container">
+<section>
+  <h2>基本情報</h2>
 
-  <section class="input-area">
-    <h2>入力</h2>
+  <div class="form-group">
+    <label>ポケモン名</label>
+    <input id="pokemonName">
+  </div>
 
-    <label>
-      ポケモン名
-      <input type="text" id="pokemonName" placeholder="例：ピカチュウ">
-    </label>
+  <div class="form-group">
+    <label>ニックネーム</label>
+    <input id="nickname">
+  </div>
 
-    <label>
-      性格
-      <select id="natureSelect"></select>
-    </label>
+  <div class="form-group">
+    <label>SP</label>
+    <input type="number" id="sp">
+  </div>
 
-    <label>
-      出会ったフィールド
-      <select id="fieldSelect"></select>
-    </label>
+  <div class="form-group">
+    <label>レベル</label>
+    <input type="range" id="level" min="1" max="100" value="1">
+    <div>Lv <span id="levelValue">1</span></div>
+  </div>
 
-    <label>
-      食材構成
-      <select id="foodPatternSelect"></select>
-    </label>
+  <div class="form-group">
+    <label>食材</label>
+    <select id="ingredientPattern"></select>
+  </div>
 
-    <fieldset>
-      <legend>サブスキル</legend>
-
-      <label>Lv10 <select class="subskill"></select></label>
-      <label>Lv25 <select class="subskill"></select></label>
-      <label>Lv50 <select class="subskill"></select></label>
-      <label>Lv75 <select class="subskill"></select></label>
-      <label>Lv100 <select class="subskill"></select></label>
-    </fieldset>
-
-    <label>
-      眠った時間（時間）
-      <input type="number" id="sleepTime" min="0" step="1">
-    </label>
-
-    <button id="generateBtn">カード生成</button>
-  </section>
-
-  <section class="output-area">
-    <h2>出力</h2>
-
-    <div id="card" class="card hidden">
-      <img id="pokemonImage" alt="ポケモン画像">
-      <h3 id="outName"></h3>
-      <p id="outNature"></p>
-      <p id="outField"></p>
-      <p id="outFood"></p>
-      <ul id="outSubskills"></ul>
-      <p id="outSleep"></p>
+  <div class="form-group">
+    <label>おてつだい時間</label>
+    <div class="inline">
+      <input type="number" placeholder="時間">
+      <input type="number" placeholder="分">
+      <input type="number" placeholder="秒">
     </div>
-  </section>
+  </div>
 
-</div>
+  <div class="form-group">
+    <label>最大所持数（自動）</label>
+    <div class="readonly-box" id="maxCarry">-- 個</div>
+  </div>
+</section>
+
+<section>
+  <h2>スキル</h2>
+
+  <div class="form-group">
+    <label>メインスキル</label>
+    <div class="inline">
+      <input value="（自動設定）" disabled>
+      <select>
+        <option>Lv1</option>
+        <option>Lv2</option>
+        <option>Lv3</option>
+        <option>Lv4</option>
+        <option>Lv5</option>
+        <option>Lv6</option>
+        <option>Lv7</option>
+        <option>Lv8</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group"><label>サブスキル Lv10</label><select></select></div>
+  <div class="form-group"><label>サブスキル Lv25</label><select></select></div>
+  <div class="form-group"><label>サブスキル Lv50</label><select></select></div>
+  <div class="form-group"><label>サブスキル Lv75</label><select></select></div>
+  <div class="form-group"><label>サブスキル Lv100</label><select></select></div>
+</section>
+
+<section>
+  <h2>詳細情報</h2>
+
+  <div class="form-group">
+    <label>性格</label>
+    <div class="inline">
+      <select id="nature"></select>
+      <label><input type="checkbox"> まっしろミント使用</label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label>出会ったフィールド</label>
+    <select></select>
+  </div>
+
+  <div class="form-group">
+    <label>一緒に眠った時間</label>
+    <div class="inline">
+      <input type="number" placeholder="時間">
+      <input type="number" placeholder="分">
+    </div>
+  </div>
+</section>
 
 <script src="script.js"></script>
 </body>
