@@ -133,25 +133,24 @@ mintCheck.addEventListener("change", updateNatureDetail);
 
 // ===== サブスキル =====
 const subSkills = [
-  { name: "最大所持数アップS", rarity: "white" },
-  { name: "おてつだいスピードS", rarity: "white" },
-  { name: "食材確率アップS", rarity: "white" },
-  { name: "スキル確率アップS", rarity: "white" },
-
-  { name: "最大所持数アップM", rarity: "blue" },
-  { name: "最大所持数アップL", rarity: "blue" },
-  { name: "おてつだいスピードM", rarity: "blue" },
-  { name: "食材確率アップM", rarity: "blue" },
-  { name: "スキル確率アップM", rarity: "blue" },
-  { name: "スキルレベルアップS", rarity: "blue" },
-
   { name: "きのみの数S", rarity: "gold" },
   { name: "おてつだいボーナス", rarity: "gold" },
   { name: "睡眠EXPボーナス", rarity: "gold" },
   { name: "ゆめのかけらボーナス", rarity: "gold" },
   { name: "リサーチEXPボーナス", rarity: "gold" },
   { name: "げんき回復ボーナス", rarity: "gold" },
-  { name: "スキルレベルアップM", rarity: "gold" }
+  { name: "スキルレベルアップM", rarity: "gold" },
+  { name: "スキルレベルアップS", rarity: "blue" },
+  
+  { name: "おてつだいスピードM", rarity: "blue" },
+  { name: "おてつだいスピードS", rarity: "white" },
+  { name: "食材確率アップM", rarity: "blue" },
+  { name: "食材確率アップS", rarity: "white" },
+  { name: "スキル確率アップM", rarity: "blue" },
+  { name: "スキル確率アップS", rarity: "white" },
+  { name: "最大所持数アップL", rarity: "blue" },
+  { name: "最大所持数アップM", rarity: "blue" },
+  { name: "最大所持数アップS", rarity: "white" }
 ];
 
 
