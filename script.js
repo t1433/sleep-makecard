@@ -1,146 +1,167 @@
-/* =====================
-   性格データ
-===================== */
-const natures = [
-  { name: "がんばりや(無補正)", detail: "" },
-  { name: "さみしがり(おてスピ↑げんき↓)", detail: "おてつだいスピード↑↑\nげんき回復量↓↓" },
-  { name: "いじっぱり(おてスピ↑食材↓)", detail: "おてつだいスピード↑↑\n食材おてつだい確率↓↓" },
-  { name: "やんちゃ(おてスピ↑スキル↓)", detail: "おてつだいスピード↑↑\nメインスキル発生率↓↓" },
-  { name: "ゆうかん(おてスピ↑EXP↓)", detail: "おてつだいスピード↑↑\nEXP獲得量↓↓" },
-  { name: "ずぶとい(げんき↑おてスピ↓)", detail: "げんき回復量↑↑\nおてつだいスピード↓↓" },
-  { name: "わんぱく(げんき↑食材↓)", detail: "げんき回復量↑↑\n食材おてつだい確率↓↓" },
-  { name: "のうてんき(げんき↑スキル↓)", detail: "げんき回復量↑↑\nメインスキル発生率↓↓" },
-  { name: "のんき(げんき↑EXP↓)", detail: "げんき回復量↑↑\nEXP獲得量↓↓" },
-  { name: "ひかえめ(食材↑おてスピ↓)", detail: "食材おてつだい確率↑↑\nおてつだいスピード↓↓" },
-  { name: "おっとり(食材↑げんき↓)", detail: "食材おてつだい確率↑↑\nげんき回復量↓↓" },
-  { name: "うっかりや(食材↑スキル↓)", detail: "食材おてつだい確率↑↑\nメインスキル発生率↓↓" },
-  { name: "れいせい(食材↑EXP↓)", detail: "食材おてつだい確率↑↑\nEXP獲得量↓↓" },
-  { name: "おだやか(スキル↑おてスピ↓)", detail: "メインスキル発生率↑↑\nおてつだいスピード↓↓" },
-  { name: "おとなしい(スキル↑げんき↓)", detail: "メインスキル発生率↑↑\nげんき回復量↓↓" },
-  { name: "しんちょう(スキル↑食材↓)", detail: "メインスキル発生率↑↑\n食材おてつだい確率↓↓" },
-  { name: "なまいき(スキル↑EXP↓)", detail: "メインスキル発生率↑↑\nEXP獲得量↓↓" },
-  { name: "おくびょう(EXP↑おてスピ↓)", detail: "EXP獲得量↑↑\nおてつだいスピード↓↓" },
-  { name: "せっかち(EXP↑げんき↓)", detail: "EXP獲得量↑↑\nげんき回復量↓↓" },
-  { name: "ようき(EXP↑食材↓)", detail: "EXP獲得量↑↑\n食材おてつだい確率↓↓" },
-  { name: "むじゃき(EXP↑スキル↓)", detail: "EXP獲得量↑↑\nメインスキル発生率↓↓" }
-];
+/***********************
+ * マスターデータ
+ ***********************/
 
-/* =====================
-   ポケモンデータ（例）
-===================== */
-const pokemonData = {
-  ピカチュウ: {
-    type: "でんき",
-    mainSkill: "げんきチャージS",
-    baseCarry: 20,
-    ingredients: {
-      A: "とくせんリンゴ",
-      B: "モーモーミルク",
-      C: "あまいミツ"
-    },
-    hasC: true
-  },
-
-  コダック: {
-    type: "みず",
-    mainSkill: "ゆめのかけらゲットS",
-    baseCarry: 18,
-    ingredients: {
-      A: "あんみんトマト",
-      B: "モーモーミルク"
-    },
-    hasC: false
+// ポケモン（例・あとで増やす）
+const pokemonMaster = {
+  "ピカチュウ": {
+    mainSkill: "エナジーチャージS",
+    baseCarry: 10,
+    ingredients: [
+      ["とくせんリンゴ", "とくせんリンゴ", "とくせんリンゴ"],
+      ["とくせんリンゴ", "とくせんリンゴ", "モーモーミルク"],
+      ["とくせんリンゴ", "モーモーミルク", "モーモーミルク"]
+    ]
   }
 };
 
-/* =====================
-   食材パターン
-===================== */
-const ingredientPatternsABC = ["AAA", "AAB", "AAC", "ABA", "ABB", "ABC"];
-const ingredientPatternsAB  = ["AAA", "AAB", "ABA", "ABB"];
+// サブスキル
+const subSkills = [
+  { name: "最大所持数アップS", rarity: "white", carry: 6 },
+  { name: "最大所持数アップM", rarity: "blue", carry: 12 },
+  { name: "最大所持数アップL", rarity: "blue", carry: 18 },
+  { name: "おてつだいスピードS", rarity: "white" },
+  { name: "きのみの数S", rarity: "gold" }
+];
 
-/* =====================
-   初期化
-===================== */
-const pokemonSelect = document.getElementById("pokemonSelect");
-const natureSelect = document.getElementById("nature");
+// 性格
+const natures = [
+  {
+    name: "がんばりや(無補正)",
+    detail: ""
+  },
+  {
+    name: "いじっぱり(おてスピ↑食材↓)",
+    detail: "おてつだいスピード↑↑\n食材おてつだい確率↓↓"
+  },
+  {
+    name: "ひかえめ(食材↑おてスピ↓)",
+    detail: "食材おてつだい確率↑↑\nおてつだいスピード↓↓"
+  }
+];
+
+// 出会ったフィールド
+const fields = [
+  "ワカクサ本島",
+  "シアンの砂浜",
+  "トープ洞窟",
+  "ウノハナ雪原",
+  "ラピスラズリ湖畔",
+  "ゴールド旧発電所",
+  "アンバー渓谷",
+  "ワカクサ本島EX"
+];
+
+/***********************
+ * DOM取得
+ ***********************/
+const pokemonNameInput = document.getElementById("pokemonName");
 const ingredientSelect = document.getElementById("ingredientPattern");
+const mainSkillInput = document.querySelector("section:nth-of-type(2) input");
+const levelInput = document.getElementById("level");
+const levelValue = document.getElementById("levelValue");
+const maxCarryBox = document.getElementById("maxCarry");
+const natureSelect = document.getElementById("nature");
 
-Object.keys(pokemonData).forEach(name => {
-  const option = document.createElement("option");
-  option.value = name;
-  option.textContent = name;
-  pokemonSelect.appendChild(option);
+/***********************
+ * 初期化
+ ***********************/
+function init() {
+  initNatureSelect();
+  initSubSkillSelects();
+  initFieldSelect();
+}
+
+init();
+
+/***********************
+ * レベル表示
+ ***********************/
+levelInput.addEventListener("input", () => {
+  levelValue.textContent = levelInput.value;
 });
 
-natures.forEach((n, i) => {
-  const option = document.createElement("option");
-  option.value = i;
-  option.textContent = n.name;
-  natureSelect.appendChild(option);
-});
-
-/* =====================
-   食材プルダウン生成
-===================== */
-function generateIngredientOptions(pokemonName) {
-  ingredientSelect.innerHTML = "";
-
-  const data = pokemonData[pokemonName];
+/***********************
+ * ポケモン選択時
+ ***********************/
+pokemonNameInput.addEventListener("change", () => {
+  const name = pokemonNameInput.value;
+  const data = pokemonMaster[name];
   if (!data) return;
 
-  const patterns = data.hasC ? ingredientPatternsABC : ingredientPatternsAB;
+  // メインスキル
+  mainSkillInput.value = data.mainSkill;
 
-  patterns.forEach(pattern => {
-    const label = pattern
-      .split("")
-      .map(letter => data.ingredients[letter])
-      .join(" ー ");
-
+  // 食材プルダウン
+  ingredientSelect.innerHTML = "";
+  data.ingredients.forEach(pattern => {
     const option = document.createElement("option");
-    option.value = pattern;
-    option.textContent = label;
-
+    option.textContent = pattern.join(" ー ");
     ingredientSelect.appendChild(option);
+  });
+
+  updateMaxCarry();
+});
+
+/***********************
+ * 最大所持数計算
+ ***********************/
+function updateMaxCarry() {
+  const name = pokemonNameInput.value;
+  const data = pokemonMaster[name];
+  if (!data) {
+    maxCarryBox.textContent = "-- 個";
+    return;
+  }
+
+  let carry = data.baseCarry;
+
+  // サブスキル分（所持数アップのみ）
+  document.querySelectorAll("section:nth-of-type(2) select").forEach(select => {
+    const skill = subSkills.find(s => s.name === select.value);
+    if (skill && skill.carry) carry += skill.carry;
+  });
+
+  maxCarryBox.textContent = carry + " 個";
+}
+
+/***********************
+ * サブスキル初期化
+ ***********************/
+function initSubSkillSelects() {
+  const selects = document.querySelectorAll("section:nth-of-type(2) select");
+  selects.forEach(select => {
+    subSkills
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .forEach(skill => {
+        const option = document.createElement("option");
+        option.textContent = skill.name;
+        select.appendChild(option);
+      });
+
+    select.addEventListener("change", updateMaxCarry);
   });
 }
 
-pokemonSelect.addEventListener("change", e => {
-  generateIngredientOptions(e.target.value);
-});
+/***********************
+ * 性格
+ ***********************/
+function initNatureSelect() {
+  natures.forEach(nature => {
+    const option = document.createElement("option");
+    option.textContent = nature.name;
+    natureSelect.appendChild(option);
+  });
+}
 
-/* =====================
-   フィールド「その他」
-===================== */
-const foundField = document.getElementById("foundField");
-const otherFieldWrapper = document.getElementById("otherFieldWrapper");
-
-foundField.addEventListener("change", () => {
-  otherFieldWrapper.style.display =
-    foundField.value === "other" ? "block" : "none";
-});
-
-/* =====================
-   出力テスト
-===================== */
-document.getElementById("generateBtn").addEventListener("click", () => {
-  const nature = natures[natureSelect.value];
-
-  const result = {
-    pokemon: pokemonSelect.value,
-    nickname: nickname.value,
-    gender: gender.value,
-    level: level.value,
-    sp: sp.value,
-    sleepTime: sleepTime.value,
-    nature: nature
-      ? `${nature.name}${nature.detail ? "（" + nature.detail.replace(/\n/g, " / ") + "）" : ""}`
-      : "",
-    ingredientPattern: ingredientSelect.value,
-    foundDate: foundDate.value,
-    foundField:
-      foundField.value === "other" ? otherField.value : foundField.value
-  };
-
-  output.textContent = JSON.stringify(result, null, 2);
-});
+/***********************
+ * フィールド
+ ***********************/
+function initFieldSelect() {
+  const fieldSelect = document.querySelector("section:nth-of-type(3) select");
+  fields.forEach(field => {
+    const option = document.createElement("option");
+    option.textContent = field;
+    fieldSelect.appendChild(option);
+  });
+}
