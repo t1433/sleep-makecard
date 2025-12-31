@@ -1,142 +1,73 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ポケモンスリープ ポケモン紹介カード</title>
-
-  <style>
-    body {
-      font-family: sans-serif;
-      background: #f5f5f5;
-      padding: 20px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 15px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 4px;
-    }
-
-    input, select {
-      width: 100%;
-      padding: 6px;
-      font-size: 14px;
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    #output {
-      margin-top: 30px;
-      background: #fff;
-      padding: 15px;
-      border-radius: 8px;
-      white-space: pre-wrap;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <h1>ポケモンスリープ ポケモン紹介カード</h1>
 
-  <!-- ポケモン -->
-  <div class="form-group">
-    <label for="pokemonSelect">ポケモン</label>
-    <select id="pokemonSelect">
-      <option value="">選択してください</option>
-    </select>
-  </div>
+<h1>ポケモンスリープ ポケモン紹介カード</h1>
 
-  <!-- ニックネーム -->
-  <div class="form-group">
-    <label for="nickname">ニックネーム</label>
-    <input type="text" id="nickname">
-  </div>
+<div class="container">
 
-  <!-- 性別 -->
-  <div class="form-group">
-    <label for="gender">性別</label>
-    <select id="gender">
-      <option value="">選択</option>
-      <option value="♂">♂</option>
-      <option value="♀">♀</option>
-      <option value="不明">不明</option>
-    </select>
-  </div>
+  <section class="input-area">
+    <h2>入力</h2>
 
-  <!-- レベル -->
-  <div class="form-group">
-    <label for="level">レベル</label>
-    <input type="number" id="level">
-  </div>
+    <label>
+      ポケモン名
+      <input type="text" id="pokemonName" placeholder="例：ピカチュウ">
+    </label>
 
-  <!-- SP -->
-  <div class="form-group">
-    <label for="sp">SP</label>
-    <input type="number" id="sp">
-  </div>
+    <label>
+      性格
+      <select id="natureSelect"></select>
+    </label>
 
-  <!-- 性格 -->
-  <div class="form-group">
-    <label for="nature">性格</label>
-    <select id="nature"></select>
-  </div>
+    <label>
+      出会ったフィールド
+      <select id="fieldSelect"></select>
+    </label>
 
-  <!-- 食材 -->
-  <div class="form-group">
-    <label for="ingredientPattern">食材</label>
-    <select id="ingredientPattern"></select>
-  </div>
+    <label>
+      食材構成
+      <select id="foodPatternSelect"></select>
+    </label>
 
-  <!-- 出会った日 -->
-  <div class="form-group">
-    <label for="foundDate">出会った日</label>
-    <input type="date" id="foundDate">
-  </div>
+    <fieldset>
+      <legend>サブスキル</legend>
 
-  <!-- 出会ったフィールド -->
-  <div class="form-group">
-    <label for="foundField">出会ったフィールド</label>
-    <select id="foundField">
-      <option value="">選択してください</option>
-      <option value="ワカクサ本島">ワカクサ本島</option>
-      <option value="シアンの砂浜">シアンの砂浜</option>
-      <option value="トープ洞窟">トープ洞窟</option>
-      <option value="ウノハナ雪原">ウノハナ雪原</option>
-      <option value="ラピスラズリ湖畔">ラピスラズリ湖畔</option>
-      <option value="ゴールド旧発電所">ゴールド旧発電所</option>
-      <option value="アンバー渓谷">アンバー渓谷</option>
-      <option value="ワカクサ本島EX">ワカクサ本島EX</option>
-      <option value="other">その他</option>
-    </select>
-  </div>
+      <label>Lv10 <select class="subskill"></select></label>
+      <label>Lv25 <select class="subskill"></select></label>
+      <label>Lv50 <select class="subskill"></select></label>
+      <label>Lv75 <select class="subskill"></select></label>
+      <label>Lv100 <select class="subskill"></select></label>
+    </fieldset>
 
-  <div class="form-group" id="otherFieldWrapper" style="display:none;">
-    <label for="otherField">フィールド名（自由入力）</label>
-    <input type="text" id="otherField">
-  </div>
+    <label>
+      眠った時間（時間）
+      <input type="number" id="sleepTime" min="0" step="1">
+    </label>
 
-  <!-- 一緒に眠った時間（←ここに移動） -->
-  <div class="form-group">
-    <label for="sleepTime">一緒に眠った時間（時間）</label>
-    <input type="number" id="sleepTime">
-  </div>
+    <button id="generateBtn">カード生成</button>
+  </section>
 
-  <button id="generateBtn">出力テスト</button>
+  <section class="output-area">
+    <h2>出力</h2>
 
-  <div id="output"></div>
+    <div id="card" class="card hidden">
+      <img id="pokemonImage" alt="ポケモン画像">
+      <h3 id="outName"></h3>
+      <p id="outNature"></p>
+      <p id="outField"></p>
+      <p id="outFood"></p>
+      <ul id="outSubskills"></ul>
+      <p id="outSleep"></p>
+    </div>
+  </section>
 
-  <script src="script.js"></script>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
