@@ -31,6 +31,30 @@ function formatHelpTime() {
   return [h, m, s].filter(Boolean).join("");
 }
 
+
+function generateIngredientPatterns(pokemonName) {
+  const data = pokemonDB[pokemonName];
+  if (!data) return [];
+
+  const { A, B, C } = data.ingredients;
+
+  let patterns = [
+    { label: "AAA", text: `${A} ー ${A} ー ${A}` },
+    { label: "AAB", text: `${A} ー ${A} ー ${B}` },
+    { label: "ABB", text: `${A} ー ${B} ー ${B}` },
+    { label: "BBB", text: `${B} ー ${B} ー ${B}` }
+  ];
+
+  if (C) {
+    patterns.push(
+      { label: "AAC", text: `${A} ー ${A} ー ${C}` },
+      { label: "ACC", text: `${A} ー ${C} ー ${C}` }
+    );
+  }
+
+  return patterns;
+}
+
 // ===== 性格データ =====
 const natures = [
   { name: "がんばりや(無補正)", detail: "" },
