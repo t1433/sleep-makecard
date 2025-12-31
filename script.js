@@ -1,3 +1,11 @@
+const pokemonName = document.getElementById("pokemonName");
+const sleepHour = document.getElementById("sleepHour");
+const sleepMin = document.getElementById("sleepMin");
+const foundField = document.getElementById("foundField");
+const otherFieldWrapper = document.getElementById("otherFieldWrapper");
+const generateBtn = document.getElementById("generateBtn");
+const output = document.getElementById("output");
+
 // ===== レベル入力 & バー同期 =====
 const levelInput = document.getElementById("levelInput");
 const levelRange = document.getElementById("levelRange");
