@@ -54,6 +54,32 @@ function generateIngredientPatterns(pokemonName) {
 
   return patterns;
 }
+function updateIngredientSelect(pokemonName) {
+  ingredientPattern.innerHTML = "";
+
+  const patterns = generateIngredientPatterns(pokemonName);
+
+  patterns.forEach(p => {
+    const option = document.createElement("option");
+    option.value = p.label;
+    option.textContent = `${p.text}（${p.label}）`;
+    ingredientPattern.appendChild(option);
+  });
+}
+pokemonName.addEventListener("input", () => {
+  const name = pokemonName.value;
+
+  if (!pokemonDB[name]) return;
+
+  // 食材
+  updateIngredientSelect(name);
+
+  // 最大所持数
+  updateMaxCarry();
+
+  // メインスキル
+  mainSkillName.textContent = pokemonDB[name].mainSkill;
+});
 
 // ===== 性格データ =====
 const natures = [
