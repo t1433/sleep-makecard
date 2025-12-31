@@ -3,45 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <title>ポケモンスリープ ポケモン紹介カード</title>
+
   <style>
     body {
       font-family: sans-serif;
-      background: #f5f5f5;
-      padding: 20px;
+      max-width: 900px;
+      margin: 20px auto;
     }
     h2 {
-      margin-top: 30px;
-      border-bottom: 2px solid #ccc;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 4px;
+    }
+    .section {
+      margin-bottom: 24px;
     }
     .row {
-      margin: 10px 0;
+      margin-bottom: 10px;
     }
     label {
       display: inline-block;
       width: 160px;
       vertical-align: top;
     }
-    select, input {
+    input, select {
       padding: 4px;
-      min-width: 260px;
     }
-    .nature-detail {
-      margin-top: 8px;
-      white-space: pre-line;
+
+    #natureDetail {
+      margin-left: 160px;
+      font-size: 0.9em;
       color: #555;
+      white-space: pre-line;
+      margin-bottom: 12px;
     }
+
+    /* サブスキル背景色 */
+    select.subSkill.white { background-color: #f5f5f5; }
+    select.subSkill.blue  { background-color: #e8f0ff; }
+    select.subSkill.gold  { background-color: #fff6d6; }
   </style>
 </head>
 <body>
 
-  <h1>ポケモンスリープ ポケモン紹介カード</h1>
+<h1>ポケモンスリープ ポケモン紹介カード</h1>
 
-  <!-- 基本情報 -->
+<div class="section">
   <h2>基本情報</h2>
 
   <div class="row">
     <label>ポケモン名</label>
-    <input type="text" id="pokemonName" placeholder="例：ピカチュウ">
+    <input type="text" id="pokemonName">
   </div>
 
   <div class="row">
@@ -50,18 +61,24 @@
   </div>
 
   <div class="row">
-    <label>食材構成</label>
-    <select id="ingredientPattern">
-      <option>ポケモンを選択してください</option>
-    </select>
+    <label>SP</label>
+    <input type="number" id="sp">
+  </div>
+
+  <div class="row">
+    <label>レベル</label>
+    <input type="number" id="levelInput" min="1" max="100">
+    <input type="range" id="levelRange" min="1" max="100" value="1">
+    <span id="levelValue">1</span>
   </div>
 
   <div class="row">
     <label>最大所持数</label>
-    <span id="maxCarryDisplay">-</span>
+    <span id="maxCarry">---</span>
   </div>
+</div>
 
-  <!-- スキル -->
+<div class="section">
   <h2>スキル</h2>
 
   <div class="row">
@@ -74,16 +91,56 @@
     </select>
   </div>
 
-  <!-- 詳細情報 -->
+  <div class="row"><label>サブスキル Lv10</label><select class="subSkill"></select></div>
+  <div class="row"><label>サブスキル Lv25</label><select class="subSkill"></select></div>
+  <div class="row"><label>サブスキル Lv50</label><select class="subSkill"></select></div>
+  <div class="row"><label>サブスキル Lv75</label><select class="subSkill"></select></div>
+  <div class="row"><label>サブスキル Lv100</label><select class="subSkill"></select></div>
+</div>
+
+<div class="section">
   <h2>詳細情報</h2>
 
   <div class="row">
     <label>性格</label>
     <select id="nature"></select>
+    <label style="width:auto; margin-left:10px;">
+      <input type="checkbox" id="mint"> まっしろミント使用
+    </label>
+  </div>
+  <div id="natureDetail"></div>
+
+  <div class="row">
+    <label>出会ったフィールド</label>
+    <select id="foundField">
+      <option value="">選択してください</option>
+      <option>ワカクサ本島</option>
+      <option>シアンの砂浜</option>
+      <option>トープ洞窟</option>
+      <option>ウノハナ雪原</option>
+      <option>ラピスラズリ湖畔</option>
+      <option>ゴールド旧発電所</option>
+      <option>アンバー渓谷</option>
+      <option>ワカクサ本島EX</option>
+      <option value="other">その他</option>
+    </select>
   </div>
 
-  <div class="nature-detail" id="natureDetail"></div>
+  <div class="row" id="otherFieldWrapper" style="display:none;">
+    <label></label>
+    <input type="text" id="otherField" placeholder="フィールド名を入力">
+  </div>
 
-  <script src="script.js"></script>
+  <div class="row">
+    <label>一緒に眠った時間</label>
+    <input type="number" id="sleepHour" placeholder="時間" min="0">
+    <input type="number" id="sleepMin" placeholder="分" min="0" max="59">
+  </div>
+</div>
+
+<button id="generateBtn">出力テスト</button>
+<pre id="output"></pre>
+
+<script src="script.js"></script>
 </body>
 </html>
