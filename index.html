@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ポケモンスリープ ポケモン紹介カード</title>
+
   <style>
     body {
       font-family: sans-serif;
@@ -27,6 +28,7 @@
     input, select {
       padding: 4px;
     }
+
     #natureDetail {
       margin-left: 160px;
       font-size: 0.9em;
@@ -34,15 +36,11 @@
       white-space: pre-line;
       margin-bottom: 12px;
     }
-    select.subSkill.white {
-      background-color: #f5f5f5;
-    }
-    select.subSkill.blue {
-      background-color: #e8f0ff;
-    }
-    select.subSkill.gold {
-      background-color: #fff6d6;
-    }
+
+    /* サブスキル背景色 */
+    select.subSkill.white { background-color: #f5f5f5; }
+    select.subSkill.blue  { background-color: #e8f0ff; }
+    select.subSkill.gold  { background-color: #fff6d6; }
   </style>
 </head>
 <body>
@@ -75,20 +73,6 @@
   </div>
 
   <div class="row">
-    <label>食材構成</label>
-    <select id="ingredientPattern">
-      <option value="">ポケモン選択後に選択</option>
-    </select>
-  </div>
-
-  <div class="row">
-    <label>おてつだい時間</label>
-    <input type="number" id="helpHour" placeholder="時" min="0"> :
-    <input type="number" id="helpMin" placeholder="分" min="0" max="59"> :
-    <input type="number" id="helpSec" placeholder="秒" min="0" max="59">
-  </div>
-
-  <div class="row">
     <label>最大所持数</label>
     <span id="maxCarry">---</span>
   </div>
@@ -107,26 +91,11 @@
     </select>
   </div>
 
-  <div class="row">
-    <label>サブスキル Lv10</label>
-    <select class="subSkill"></select>
-  </div>
-  <div class="row">
-    <label>サブスキル Lv25</label>
-    <select class="subSkill"></select>
-  </div>
-  <div class="row">
-    <label>サブスキル Lv50</label>
-    <select class="subSkill"></select>
-  </div>
-  <div class="row">
-    <label>サブスキル Lv75</label>
-    <select class="subSkill"></select>
-  </div>
-  <div class="row">
-    <label>サブスキル Lv100</label>
-    <select class="subSkill"></select>
-  </div>
+  <div class="row"><label>サブスキル Lv10</label><select class="subSkill"></select></div>
+  <div class="row"><label>サブスキル Lv25</label><select class="subSkill"></select></div>
+  <div class="row"><label>サブスキル Lv50</label><select class="subSkill"></select></div>
+  <div class="row"><label>サブスキル Lv75</label><select class="subSkill"></select></div>
+  <div class="row"><label>サブスキル Lv100</label><select class="subSkill"></select></div>
 </div>
 
 <div class="section">
@@ -145,14 +114,14 @@
     <label>出会ったフィールド</label>
     <select id="foundField">
       <option value="">選択してください</option>
-      <option value="ワカクサ本島">ワカクサ本島</option>
-      <option value="シアンの砂浜">シアンの砂浜</option>
-      <option value="トープ洞窟">トープ洞窟</option>
-      <option value="ウノハナ雪原">ウノハナ雪原</option>
-      <option value="ラピスラズリ湖畔">ラピスラズリ湖畔</option>
-      <option value="ゴールド旧発電所">ゴールド旧発電所</option>
-      <option value="アンバー渓谷">アンバー渓谷</option>
-      <option value="ワカクサ本島EX">ワカクサ本島EX</option>
+      <option>ワカクサ本島</option>
+      <option>シアンの砂浜</option>
+      <option>トープ洞窟</option>
+      <option>ウノハナ雪原</option>
+      <option>ラピスラズリ湖畔</option>
+      <option>ゴールド旧発電所</option>
+      <option>アンバー渓谷</option>
+      <option>ワカクサ本島EX</option>
       <option value="other">その他</option>
     </select>
   </div>
