@@ -74,14 +74,29 @@ function updateSubSkillOptions() {
 }
 
 subSkillSelects.forEach(select => {
-  select.addEventListener("change", updateSubSkillOptions);
+  select.addEventListener("change", () => {
+    updateSubSkillOptions();     
+    updateSubSkillColor(select); 
+    updateMaxCarry();            
+  });
 });
+
 const selectedSubSkills = Array.from(subSkillSelects)
   .map((sel, i) => ({
     level: [10, 25, 50, 75, 100][i],
     skill: subSkills[sel.value]?.name || null,
     rarity: subSkills[sel.value]?.rarity || null
   }));
+
+function updateSubSkillColor(select) {
+  select.classList.remove("white", "blue", "gold");
+
+  const skill = subSkills[select.value];
+  if (!skill) return;
+
+  select.classList.add(skill.rarity);
+}
+
 
 // ===== 性格データ =====
 const natures = [
