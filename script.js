@@ -20,6 +20,17 @@ levelInput.addEventListener("input", () => syncLevel(levelInput.value));
 levelRange.addEventListener("input", () => syncLevel(levelRange.value));
 syncLevel(1);
 
+const helpHour = document.getElementById("helpHour");
+const helpMin = document.getElementById("helpMin");
+const helpSec = document.getElementById("helpSec");
+function formatHelpTime() {
+  const h = helpHour.value ? `${helpHour.value}時間` : "";
+  const m = helpMin.value ? `${helpMin.value}分` : "";
+  const s = helpSec.value ? `${helpSec.value}秒` : "";
+
+  return [h, m, s].filter(Boolean).join("");
+}
+
 // ===== 性格データ =====
 const natures = [
   { name: "がんばりや(無補正)", detail: "" },
