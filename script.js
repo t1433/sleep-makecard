@@ -1,4 +1,4 @@
-// ===== レベル入力＆バー同期 =====
+// ===== レベル入力 & バー同期 =====
 const levelInput = document.getElementById("levelInput");
 const levelRange = document.getElementById("levelRange");
 const levelValue = document.getElementById("levelValue");
@@ -8,99 +8,9 @@ function syncLevel(value) {
   levelRange.value = value;
   levelValue.textContent = value;
 }
-
 levelInput.addEventListener("input", () => syncLevel(levelInput.value));
 levelRange.addEventListener("input", () => syncLevel(levelRange.value));
-
 syncLevel(1);
-
-// ===== サブスキルデータ =====
-const subSkills = [
-  // 金
-  { name: "きのみの数S", rarity: "gold" },
-  { name: "おてつだいボーナス", rarity: "gold" },
-  { name: "睡眠EXPボーナス", rarity: "gold" },
-  { name: "ゆめのかけらボーナス", rarity: "gold" },
-  { name: "リサーチEXPボーナス", rarity: "gold" },
-  { name: "げんき回復ボーナス", rarity: "gold" },
-  { name: "スキルレベルアップM", rarity: "gold" },
-  // 青
-  { name: "おてつだいスピードM", rarity: "blue" },
-  { name: "食材確率アップM", rarity: "blue" },
-  { name: "スキル確率アップM", rarity: "blue" },
-  { name: "スキルレベルアップS", rarity: "blue" },
-  { name: "最大所持数アップM", rarity: "blue" },
-  { name: "最大所持数アップL", rarity: "blue" },
-  // 白
-  { name: "おてつだいスピードS", rarity: "white" },
-  { name: "食材確率アップS", rarity: "white" },
-  { name: "スキル確率アップS", rarity: "white" },
-  { name: "最大所持数アップS", rarity: "white" },
-];
-
-subSkillSelects.forEach(select => {
-  updateSubSkillColor(select);
-});
-
-// ===== サブスキルプルダウン生成 =====
-const subSkillSelects = document.querySelectorAll(".subSkill");
-
-function createSubSkillOptions(select) {
-  const empty = document.createElement("option");
-  empty.value = "";
-  empty.textContent = "なし";
-  select.appendChild(empty);
-
-  subSkills.forEach((skill, index) => {
-    const option = document.createElement("option");
-    option.value = index;
-    option.textContent = skill.name;
-    option.dataset.rarity = skill.rarity;
-    select.appendChild(option);
-  });
-}
-
-subSkillSelects.forEach(select => createSubSkillOptions(select));
-function updateSubSkillOptions() {
-  const selectedIndexes = Array.from(subSkillSelects)
-    .map(sel => sel.value)
-    .filter(v => v !== "");
-
-  subSkillSelects.forEach(select => {
-    Array.from(select.options).forEach(option => {
-      if (option.value === "") return;
-
-      option.disabled =
-        selectedIndexes.includes(option.value) &&
-        select.value !== option.value;
-    });
-  });
-}
-
-subSkillSelects.forEach(select => {
-  select.addEventListener("change", () => {
-    updateSubSkillOptions();     
-    updateSubSkillColor(select); 
-    updateMaxCarry();            
-  });
-});
-
-const selectedSubSkills = Array.from(subSkillSelects)
-  .map((sel, i) => ({
-    level: [10, 25, 50, 75, 100][i],
-    skill: subSkills[sel.value]?.name || null,
-    rarity: subSkills[sel.value]?.rarity || null
-  }));
-
-function updateSubSkillColor(select) {
-  select.classList.remove("white", "blue", "gold");
-
-  const skill = subSkills[select.value];
-  if (!skill) return;
-
-  select.classList.add(skill.rarity);
-}
-
 
 // ===== 性格データ =====
 const natures = [
@@ -150,28 +60,133 @@ function updateNatureDetail() {
 natureSelect.addEventListener("change", updateNatureDetail);
 mintCheck.addEventListener("change", updateNatureDetail);
 
-// ===== フィールド その他 =====
-const foundField = document.getElementById("foundField");
-const otherFieldWrapper = document.getElementById("otherFieldWrapper");
+// ===== サブスキル =====
+const subSkills = [
+  { name: "最大所持数アップS", rarity: "white" },
+  { name: "おてつだいスピードS", rarity: "white" },
+  { name: "食材確率アップS", rarity: "white" },
+  { name: "スキル確率アップS", rarity: "white" },
 
+  { name: "最大所持数アップM", rarity: "blue" },
+  { name: "最大所持数アップL", rarity: "blue" },
+  { name: "おてつだいスピードM", rarity: "blue" },
+  { name: "食材確率アップM", rarity: "blue" },
+  { name: "スキル確率アップM", rarity: "blue" },
+  { name: "スキルレベルアップS", rarity: "blue" },
+
+  { name: "きのみの数S", rarity: "gold" },
+  { name: "おてつだいボーナス", rarity: "gold" },
+  { name: "睡眠EXPボーナス", rarity: "gold" },
+  { name: "ゆめのかけらボーナス", rarity: "gold" },
+  { name: "リサーチEXPボーナス", rarity: "gold" },
+  { name: "げんき回復ボーナス", rarity: "gold" },
+  { name: "スキルレベルアップM", rarity: "gold" }
+];
+
+const subSkillSelects = document.querySelectorAll(".subSkill");
+
+function createSubSkillOptions(select) {
+  const empty = document.createElement("option");
+  empty.value = "";
+  empty.textContent = "なし";
+  select.appendChild(empty);
+
+  subSkills.forEach((skill, i) => {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = skill.name;
+    select.appendChild(option);
+  });
+}
+
+subSkillSelects.forEach(createSubSkillOptions);
+
+function updateSubSkillOptions() {
+  const selected = Array.from(subSkillSelects)
+    .map(s => s.value)
+    .filter(v => v !== "");
+
+  subSkillSelects.forEach(select => {
+    Array.from(select.options).forEach(option => {
+      if (option.value === "") return;
+      option.disabled =
+        selected.includes(option.value) &&
+        select.value !== option.value;
+    });
+  });
+}
+
+function updateSubSkillColor(select) {
+  select.classList.remove("white", "blue", "gold");
+  const skill = subSkills[select.value];
+  if (skill) select.classList.add(skill.rarity);
+}
+
+subSkillSelects.forEach(select => {
+  select.addEventListener("change", () => {
+    updateSubSkillOptions();
+    updateSubSkillColor(select);
+    updateMaxCarry();
+  });
+});
+
+// ===== 最大所持数（仮） =====
+const pokemonBaseCarry = {
+  "ピカチュウ": 15,
+  "イーブイ": 18,
+  "カビゴン": 20
+};
+
+function calcSleepBonus(hours) {
+  let bonus = 0;
+  if (hours >= 200) bonus += 1;
+  if (hours >= 500) bonus += 2;
+  if (hours >= 1000) bonus += 3;
+  if (hours >= 2000) bonus += 2;
+  return bonus;
+}
+
+function calcSubSkillBonus() {
+  let bonus = 0;
+  subSkillSelects.forEach(sel => {
+    const name = subSkills[sel.value]?.name;
+    if (name === "最大所持数アップS") bonus += 6;
+    if (name === "最大所持数アップM") bonus += 12;
+    if (name === "最大所持数アップL") bonus += 18;
+  });
+  return bonus;
+}
+
+function updateMaxCarry() {
+  const name = pokemonName.value;
+  const base = pokemonBaseCarry[name] ?? 0;
+
+  const h = Number(sleepHour.value || 0);
+  const m = Number(sleepMin.value || 0);
+  const sleepBonus = calcSleepBonus(h + m / 60);
+  const subBonus = calcSubSkillBonus();
+
+  const total = base + sleepBonus + subBonus;
+  document.getElementById("maxCarry").textContent =
+    total > 0 ? total : "---";
+}
+
+pokemonName.addEventListener("input", updateMaxCarry);
+sleepHour.addEventListener("input", updateMaxCarry);
+sleepMin.addEventListener("input", updateMaxCarry);
+
+// ===== フィールド その他 =====
 foundField.addEventListener("change", () => {
   otherFieldWrapper.style.display =
     foundField.value === "other" ? "block" : "none";
 });
 
 // ===== 出力テスト =====
-document.getElementById("generateBtn").addEventListener("click", () => {
+generateBtn.addEventListener("click", () => {
   const result = {
-    pokemonName: pokemonName.value,
-    nickname: nickname.value,
+    pokemon: pokemonName.value,
     level: levelInput.value,
-    nature: natures[natureSelect.value]?.name,
-    field:
-      foundField.value === "other"
-        ? otherField.value
-        : foundField.value
+    nature: natures[natureSelect.value]?.name
   };
-
-  document.getElementById("output").textContent =
-    JSON.stringify(result, null, 2);
+  output.textContent = JSON.stringify(result, null, 2);
 });
