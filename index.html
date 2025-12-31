@@ -155,10 +155,31 @@
       <input type="date" id="meetDate">
     </label><br>
 
-    <label>
-      出会ったフィールド：
-      <input type="text" id="field">
-    </label>
+    <div class="form-group">
+      <label for="foundField">出会ったフィールド</label>
+      <select id="foundField" name="foundField">
+        <option value="">選択してください</option>
+        <option value="ワカクサ本島">ワカクサ本島</option>
+        <option value="シアンの砂浜">シアンの砂浜</option>
+        <option value="トープ洞窟">トープ洞窟</option>
+        <option value="ウノハナ雪原">ウノハナ雪原</option>
+        <option value="ラピスラズリ湖畔">ラピスラズリ湖畔</option>
+        <option value="ゴールド旧発電所">ゴールド旧発電所</option>
+        <option value="アンバー渓谷">アンバー渓谷</option>
+        <option value="ワカクサ本島EX">ワカクサ本島EX</option>
+        <option value="other">その他（手入力）</option>
+      </select>
+    </div>
+
+    <div class="form-group" id="otherFieldWrapper" style="display: none;">
+      <label for="otherField">フィールド名（自由入力）</label>
+      <input
+        type="text"
+        id="otherField"
+        placeholder="例：新フィールド名"
+      />
+    </div>
+
   </fieldset>
 
   <br>
