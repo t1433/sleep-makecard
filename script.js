@@ -38,6 +38,10 @@ const subSkills = [
   { name: "最大所持数アップS", rarity: "white" },
 ];
 
+subSkillSelects.forEach(select => {
+  updateSubSkillColor(select);
+});
+
 // ===== サブスキルプルダウン生成 =====
 const subSkillSelects = document.querySelectorAll(".subSkill");
 
