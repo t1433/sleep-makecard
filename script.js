@@ -176,3 +176,71 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+/* =====================
+  最大所持数 自動計算
+===================== */
+
+/* ポケモン固有の基本最大所持数（例） */
+const baseCarryMap = {
+  "メタモン": 10,
+  "ピカチュウ": 15,
+  "カビゴン": 20
+  // ←ここに追加していく
+};
+
+/* サブスキルによる増加量 */
+const carryUpMap = {
+  "最大所持数アップS": 6,
+  "最大所持数アップM": 12,
+  "最大所持数アップL": 18
+};
+
+/* 睡眠時間による増加 */
+function calcSleepBonus(hours) {
+  let bonus = 0;
+  if (hours >= 200) bonus += 1;
+  if (hours >= 500) bonus += 2;
+  if (hours >= 1000) bonus += 3;
+  if (hours >= 2000) bonus += 2;
+  return bonus;
+}
+
+/* 最大所持数を再計算 */
+function updateMaxCarry() {
+  const pokemonName = document.getElementById("pokemonName").value;
+  const sleepHours = Number(document.getElementById("sleepHours").value) || 0;
+  const display = document.getElementById("maxCarryDisplay");
+
+  /* 基本値 */
+  let total = baseCarryMap[pokemonName] ?? 0;
+
+  /* サブスキル補正 */
+  document.querySelectorAll(".subSkill").forEach(select => {
+    const skill = select.value;
+    if (carryUpMap[skill]) {
+      total += carryUpMap[skill];
+    }
+  });
+
+  /* 睡眠補正 */
+  total += calcSleepBonus(sleepHours);
+
+  display.textContent = total > 0 ? total : "（未確定）";
+}
+
+/* =====================
+  イベント登録
+===================== */
+document.addEventListener("DOMContentLoaded", () => {
+
+  document.getElementById("pokemonName")
+    .addEventListener("input", updateMaxCarry);
+
+  document.getElementById("sleepHours")
+    .addEventListener("input", updateMaxCarry);
+
+  document.querySelectorAll(".subSkill").forEach(select => {
+    select.addEventListener("change", updateMaxCarry);
+  });
+
+});
