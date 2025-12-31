@@ -14,6 +14,77 @@ levelRange.addEventListener("input", () => syncLevel(levelRange.value));
 
 syncLevel(1);
 
+// ===== サブスキルデータ =====
+const subSkills = [
+  // 白
+  { name: "最大所持数アップS", rarity: "white" },
+  { name: "おてつだいスピードS", rarity: "white" },
+  { name: "食材確率アップS", rarity: "white" },
+  { name: "スキル確率アップS", rarity: "white" },
+
+  // 青
+  { name: "最大所持数アップM", rarity: "blue" },
+  { name: "最大所持数アップL", rarity: "blue" },
+  { name: "おてつだいスピードM", rarity: "blue" },
+  { name: "食材確率アップM", rarity: "blue" },
+  { name: "スキル確率アップM", rarity: "blue" },
+  { name: "スキルレベルアップS", rarity: "blue" },
+
+  // 金
+  { name: "きのみの数S", rarity: "gold" },
+  { name: "おてつだいボーナス", rarity: "gold" },
+  { name: "睡眠EXPボーナス", rarity: "gold" },
+  { name: "ゆめのかけらボーナス", rarity: "gold" },
+  { name: "リサーチEXPボーナス", rarity: "gold" },
+  { name: "げんき回復ボーナス", rarity: "gold" },
+  { name: "スキルレベルアップM", rarity: "gold" }
+];
+
+// ===== サブスキルプルダウン生成 =====
+const subSkillSelects = document.querySelectorAll(".subSkill");
+
+function createSubSkillOptions(select) {
+  const empty = document.createElement("option");
+  empty.value = "";
+  empty.textContent = "なし";
+  select.appendChild(empty);
+
+  subSkills.forEach((skill, index) => {
+    const option = document.createElement("option");
+    option.value = index;
+    option.textContent = skill.name;
+    option.dataset.rarity = skill.rarity;
+    select.appendChild(option);
+  });
+}
+
+subSkillSelects.forEach(select => createSubSkillOptions(select));
+function updateSubSkillOptions() {
+  const selectedIndexes = Array.from(subSkillSelects)
+    .map(sel => sel.value)
+    .filter(v => v !== "");
+
+  subSkillSelects.forEach(select => {
+    Array.from(select.options).forEach(option => {
+      if (option.value === "") return;
+
+      option.disabled =
+        selectedIndexes.includes(option.value) &&
+        select.value !== option.value;
+    });
+  });
+}
+
+subSkillSelects.forEach(select => {
+  select.addEventListener("change", updateSubSkillOptions);
+});
+const selectedSubSkills = Array.from(subSkillSelects)
+  .map((sel, i) => ({
+    level: [10, 25, 50, 75, 100][i],
+    skill: subSkills[sel.value]?.name || null,
+    rarity: subSkills[sel.value]?.rarity || null
+  }));
+
 // ===== 性格データ =====
 const natures = [
   { name: "がんばりや(無補正)", detail: "" },
