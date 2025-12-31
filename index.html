@@ -2,10 +2,172 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8">
-  <title>ポケモンスリープ個体紹介メーカー</title>
+  <title>ポケモンスリープ 個体紹介ジェネレーター</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-  <h1>ポケモンスリープ 個体紹介メーカー</h1>
-  <p>ここにポケモン情報をまとめた画像を作ります</p>
+
+<h1>ポケモンスリープ 個体紹介ジェネレーター</h1>
+
+<form id="pokemonForm">
+
+  <!-- 基本情報 -->
+  <fieldset>
+    <legend>基本情報</legend>
+
+    <label>
+      ポケモン名：
+      <input type="text" id="pokemonName" required>
+    </label><br>
+
+    <label>
+      ニックネーム：
+      <input type="text" id="nickname">
+    </label><br>
+
+    <label>
+      性別：
+      <select id="gender">
+        <option value="♂">♂</option>
+        <option value="♀">♀</option>
+        <option value="不明">不明</option>
+      </select>
+    </label><br>
+
+    <label>
+      SP：
+      <input type="number" id="sp">
+    </label><br>
+
+    <label>
+      レベル：
+      <input type="number" id="level" min="1" max="100">
+    </label><br>
+
+    <!-- 自動表示 -->
+    <p>タイプ：<span id="typeDisplay">（自動）</span></p>
+    <p>きのみ：<span id="berryDisplay">（自動）</span></p>
+  </fieldset>
+
+  <!-- 食材 -->
+  <fieldset>
+    <legend>食材</legend>
+
+    <label>
+      食材A：
+      <select id="foodA"></select>
+    </label><br>
+
+    <label>
+      食材B：
+      <select id="foodB"></select>
+    </label><br>
+
+    <label>
+      食材C：
+      <select id="foodC"></select>
+    </label>
+  </fieldset>
+
+  <!-- おてつだい -->
+  <fieldset>
+    <legend>おてつだい</legend>
+
+    <label>
+      おてつだい時間：
+      <input type="text" id="helpTime" placeholder="1時間20分">
+    </label><br>
+
+    <label>
+      一緒に眠った時間：
+      <input type="number" id="sleepHours" placeholder="例：123">
+      時間
+    </label><br>
+
+    <!-- 自動計算 -->
+    <p>
+      最大所持数：
+      <strong><span id="maxCarryDisplay">（自動計算）</span></strong>
+    </p>
+  </fieldset>
+
+  <!-- スキル -->
+  <fieldset>
+    <legend>スキル</legend>
+
+    <p>
+      メインスキル：
+      <span id="mainSkillDisplay">（自動）</span>
+    </p>
+
+    <label>
+      メインスキルLv：
+      <select id="mainSkillLv">
+        <option value="1">Lv.1</option>
+        <option value="2">Lv.2</option>
+        <option value="3">Lv.3</option>
+        <option value="4">Lv.4</option>
+        <option value="5">Lv.5</option>
+        <option value="6">Lv.6</option>
+        <option value="7">Lv.7</option>
+      </select>
+    </label><br><br>
+
+    <label>サブスキル Lv10：
+      <select class="subSkill" data-level="10"></select>
+    </label><br>
+
+    <label>サブスキル Lv25：
+      <select class="subSkill" data-level="25"></select>
+    </label><br>
+
+    <label>サブスキル Lv50：
+      <select class="subSkill" data-level="50"></select>
+    </label><br>
+
+    <label>サブスキル Lv75：
+      <select class="subSkill" data-level="75"></select>
+    </label><br>
+
+    <label>サブスキル Lv100：
+      <select class="subSkill" data-level="100"></select>
+    </label>
+  </fieldset>
+
+  <!-- 性格 -->
+  <fieldset>
+    <legend>性格</legend>
+
+    <label>
+      性格：
+      <select id="nature"></select>
+    </label>
+
+    <p id="natureDetail">（性格詳細が表示されます）</p>
+  </fieldset>
+
+  <!-- 記録 -->
+  <fieldset>
+    <legend>記録</legend>
+
+    <label>
+      出会った日：
+      <input type="date" id="meetDate">
+    </label><br>
+
+    <label>
+      出会ったフィールド：
+      <input type="text" id="field">
+    </label>
+  </fieldset>
+
+  <br>
+  <button type="button" id="generateImage">
+    画像を生成する（未実装）
+  </button>
+
+</form>
+
+<script src="script.js"></script>
 </body>
 </html>
