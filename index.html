@@ -28,7 +28,14 @@
     input, select {
       padding: 4px;
     }
-
+    .time-input {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .time-input input {
+      width: 60px;
+    }
     #natureDetail {
       margin-left: 160px;
       font-size: 0.9em;
@@ -79,14 +86,14 @@
     </select>
   </div>
   
-  <div class="category">
+  <div class="row">
     <label>おてつだい時間</label>
-    <div style="display:flex; gap:8px; align-items:center;">
-      <input type="number" id="helpHour" min="0" placeholder="時間" style="width:70px;">
+    <div class="time-input">
+      <input type="number" id="helpHour" min="0" placeholder="時間">
       <span>時間</span>
-      <input type="number" id="helpMin" min="0" max="59" placeholder="0" style="width:60px;">
+      <input type="number" id="helpMin" min="0" max="59" placeholder="0">
       <span>分</span>
-      <input type="number" id="helpSec" min="0" max="59" placeholder="0" style="width:60px;">
+      <input type="number" id="helpSec" min="0" max="59" placeholder="0">
       <span>秒</span>
     </div>
   </div>
