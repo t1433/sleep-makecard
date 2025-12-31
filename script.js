@@ -7,13 +7,17 @@ const maxCarry = document.getElementById("maxCarry");
 const sleepHour = document.getElementById("sleepHour");
 const sleepMin = document.getElementById("sleepMin");
 
+const helpHour = document.getElementById("helpHour");
+const helpMin = document.getElementById("helpMin");
+const helpSec = document.getElementById("helpSec");
+
 const foundField = document.getElementById("foundField");
 const otherFieldWrapper = document.getElementById("otherFieldWrapper");
 
 const generateBtn = document.getElementById("generateBtn");
 const output = document.getElementById("output");
 
-// ===== レベル同期 =====
+// ===== レベル入力 & バー同期 =====
 const levelInput = document.getElementById("levelInput");
 const levelRange = document.getElementById("levelRange");
 const levelValue = document.getElementById("levelValue");
@@ -27,6 +31,14 @@ levelInput.addEventListener("input", () => syncLevel(levelInput.value));
 levelRange.addEventListener("input", () => syncLevel(levelRange.value));
 syncLevel(1);
 
+// ===== おてつだい時間整形 =====
+function formatHelpTime() {
+  const h = helpHour.value ? `${helpHour.value}時間` : "";
+  const m = helpMin.value ? `${helpMin.value}分` : "";
+  const s = helpSec.value ? `${helpSec.value}秒` : "";
+  return [h, m, s].filter(Boolean).join("");
+}
+
 // ===== ポケモン選択初期化 =====
 function initPokemonSelect() {
   Object.keys(pokemonDB).forEach(name => {
@@ -38,7 +50,7 @@ function initPokemonSelect() {
 }
 initPokemonSelect();
 
-// ===== 食材パターン生成 =====
+// ===== 食材パターン =====
 function generateIngredientPatterns(name) {
   const data = pokemonDB[name];
   if (!data) return [];
@@ -64,7 +76,6 @@ function generateIngredientPatterns(name) {
 
 function updateIngredientSelect(name) {
   ingredientPattern.innerHTML = "";
-
   generateIngredientPatterns(name).forEach(p => {
     const option = document.createElement("option");
     option.value = p.label;
@@ -73,14 +84,102 @@ function updateIngredientSelect(name) {
   });
 }
 
+// ===== 性格 =====
+const natures = [
+  { name: "がんばりや(無補正)", detail: "" },
+  { name: "さみしがり(おてスピ↑げんき↓)", detail: "おてつだいスピード↑↑\nげんき回復量↓↓" },
+  { name: "いじっぱり(おてスピ↑食材↓)", detail: "おてつだいスピード↑↑\n食材おてつだい確率↓↓" },
+  { name: "やんちゃ(おてスピ↑スキル↓)", detail: "おてつだいスピード↑↑\nメインスキル発生率↓↓" },
+  { name: "ゆうかん(おてスピ↑EXP↓)", detail: "おてつだいスピード↑↑\nEXP獲得量↓↓" },
+  { name: "ずぶとい(げんき↑おてスピ↓)", detail: "げんき回復量↑↑\nおてつだいスピード↓↓" },
+  { name: "わんぱく(げんき↑食材↓)", detail: "げんき回復量↑↑\n食材おてつだい確率↓↓" },
+  { name: "のうてんき(げんき↑スキル↓)", detail: "げんき回復量↑↑\nメインスキル発生率↓↓" },
+  { name: "のんき(げんき↑EXP↓)", detail: "げんき回復量↑↑\nEXP獲得量↓↓" },
+  { name: "ひかえめ(食材↑おてスピ↓)", detail: "食材おてつだい確率↑↑\nおてつだいスピード↓↓" },
+  { name: "おっとり(食材↑げんき↓)", detail: "食材おてつだい確率↑↑\nげんき回復量↓↓" },
+  { name: "うっかりや(食材↑スキル↓)", detail: "食材おてつだい確率↑↑\nメインスキル発生率↓↓" },
+  { name: "れいせい(食材↑EXP↓)", detail: "食材おてつだい確率↑↑\nEXP獲得量↓↓" },
+  { name: "おだやか(スキル↑おてスピ↓)", detail: "メインスキル発生率↑↑\nおてつだいスピード↓↓" },
+  { name: "おとなしい(スキル↑げんき↓)", detail: "メインスキル発生率↑↑\nげんき回復量↓↓" },
+  { name: "しんちょう(スキル↑食材↓)", detail: "メインスキル発生率↑↑\n食材おてつだい確率↓↓" },
+  { name: "なまいき(スキル↑EXP↓)", detail: "メインスキル発生率↑↑\nEXP獲得量↓↓" },
+  { name: "おくびょう(EXP↑おてスピ↓)", detail: "EXP獲得量↑↑\nおてつだいスピード↓↓" },
+  { name: "せっかち(EXP↑げんき↓)", detail: "EXP獲得量↑↑\nげんき回復量↓↓" },
+  { name: "ようき(EXP↑食材↓)", detail: "EXP獲得量↑↑\n食材おてつだい確率↓↓" },
+  { name: "むじゃき(EXP↑スキル↓)", detail: "EXP獲得量↑↑\nメインスキル発生率↓↓" }
+];
+
+const natureSelect = document.getElementById("nature");
+const natureDetail = document.getElementById("natureDetail");
+const mintCheck = document.getElementById("mint");
+
+natures.forEach((n, i) => {
+  const option = document.createElement("option");
+  option.value = i;
+  option.textContent = n.name;
+  natureSelect.appendChild(option);
+});
+
+function updateNatureDetail() {
+  if (mintCheck.checked) {
+    natureDetail.textContent = "";
+    return;
+  }
+  natureDetail.textContent = natures[natureSelect.value]?.detail ?? "";
+}
+
+natureSelect.addEventListener("change", updateNatureDetail);
+mintCheck.addEventListener("change", updateNatureDetail);
+
+// ===== サブスキル =====
+const subSkills = [
+  { name: "最大所持数アップS", rarity: "white" },
+  { name: "おてつだいスピードS", rarity: "white" },
+  { name: "食材確率アップS", rarity: "white" },
+  { name: "スキル確率アップS", rarity: "white" },
+
+  { name: "最大所持数アップM", rarity: "blue" },
+  { name: "最大所持数アップL", rarity: "blue" },
+  { name: "おてつだいスピードM", rarity: "blue" },
+  { name: "食材確率アップM", rarity: "blue" },
+  { name: "スキル確率アップM", rarity: "blue" },
+  { name: "スキルレベルアップS", rarity: "blue" },
+
+  { name: "きのみの数S", rarity: "gold" },
+  { name: "おてつだいボーナス", rarity: "gold" },
+  { name: "睡眠EXPボーナス", rarity: "gold" },
+  { name: "ゆめのかけらボーナス", rarity: "gold" },
+  { name: "リサーチEXPボーナス", rarity: "gold" },
+  { name: "げんき回復ボーナス", rarity: "gold" },
+  { name: "スキルレベルアップM", rarity: "gold" }
+];
+
+
+const subSkillSelects = document.querySelectorAll(".subSkill");
+
+subSkillSelects.forEach(select => {
+  const empty = document.createElement("option");
+  empty.value = "";
+  empty.textContent = "なし";
+  select.appendChild(empty);
+
+  subSkills.forEach((skill, i) => {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = skill.name;
+    select.appendChild(option);
+  });
+
+  select.addEventListener("change", updateMaxCarry);
+});
+
 // ===== 最大所持数 =====
 function calcSleepBonus(hours) {
-  let bonus = 0;
-  if (hours >= 200) bonus += 1;
-  if (hours >= 500) bonus += 2;
-  if (hours >= 1000) bonus += 3;
-  if (hours >= 2000) bonus += 2;
-  return bonus;
+  if (hours >= 2000) return 8;
+  if (hours >= 1000) return 6;
+  if (hours >= 500) return 3;
+  if (hours >= 200) return 1;
+  return 0;
 }
 
 function calcSubSkillBonus() {
@@ -105,18 +204,14 @@ function updateMaxCarry() {
   const h = Number(sleepHour.value || 0);
   const m = Number(sleepMin.value || 0);
 
-  const total =
-    base +
-    calcSleepBonus(h + m / 60) +
-    calcSubSkillBonus();
-
-  maxCarry.textContent = total;
+  maxCarry.textContent =
+    base + calcSleepBonus(h + m / 60) + calcSubSkillBonus();
 }
 
-// ===== ポケモン選択時まとめ処理 =====
+// ===== ポケモン変更時 =====
 pokemonSelect.addEventListener("change", () => {
   const name = pokemonSelect.value;
-  if (!name) return;
+  if (!pokemonDB[name]) return;
 
   mainSkillName.textContent = pokemonDB[name].mainSkill;
   updateIngredientSelect(name);
@@ -126,17 +221,18 @@ pokemonSelect.addEventListener("change", () => {
 sleepHour.addEventListener("input", updateMaxCarry);
 sleepMin.addEventListener("input", updateMaxCarry);
 
-// ===== フィールド その他 =====
+// ===== フィールド =====
 foundField.addEventListener("change", () => {
   otherFieldWrapper.style.display =
     foundField.value === "other" ? "block" : "none";
 });
 
-// ===== 出力テスト =====
+// ===== 出力 =====
 generateBtn.addEventListener("click", () => {
-  const result = {
+  output.textContent = JSON.stringify({
     pokemon: pokemonSelect.value,
-    level: levelInput.value
-  };
-  output.textContent = JSON.stringify(result, null, 2);
+    level: levelInput.value,
+    nature: natures[natureSelect.value]?.name,
+    helpTime: formatHelpTime()
+  }, null, 2);
 });
