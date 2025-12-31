@@ -1,60 +1,37 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>ポケモンスリープ ポケモン紹介カード</title>
   <style>
     body {
       font-family: sans-serif;
-      background: #f6f6f6;
-      padding: 20px;
+      max-width: 900px;
+      margin: 20px auto;
     }
-
-    h1 {
-      text-align: center;
+    h2 {
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 4px;
+    }
+    .section {
       margin-bottom: 24px;
     }
-
-    section {
-      background: white;
-      padding: 16px;
-      margin-bottom: 20px;
-      border-radius: 10px;
+    .row {
+      margin-bottom: 10px;
     }
-
-    section h2 {
-      margin-top: 0;
-      border-bottom: 2px solid #ddd;
-      padding-bottom: 6px;
-      margin-bottom: 16px;
-    }
-
-    .form-group {
-      margin-bottom: 12px;
-    }
-
     label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 4px;
+      display: inline-block;
+      width: 160px;
+      vertical-align: top;
     }
-
     input, select {
-      width: 100%;
-      padding: 6px;
-      font-size: 14px;
+      padding: 4px;
     }
-
-    .inline {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .readonly-box {
-      padding: 8px;
-      background: #eee;
-      border-radius: 6px;
+    #natureDetail {
+      margin-left: 160px;
+      font-size: 0.9em;
+      color: #555;
+      white-space: pre-line;
     }
   </style>
 </head>
@@ -62,103 +39,128 @@
 
 <h1>ポケモンスリープ ポケモン紹介カード</h1>
 
-<section>
+<div class="section">
   <h2>基本情報</h2>
 
-  <div class="form-group">
+  <div class="row">
     <label>ポケモン名</label>
-    <input id="pokemonName">
+    <input type="text" id="pokemonName">
   </div>
 
-  <div class="form-group">
+  <div class="row">
     <label>ニックネーム</label>
-    <input id="nickname">
+    <input type="text" id="nickname">
   </div>
 
-  <div class="form-group">
+  <div class="row">
     <label>SP</label>
     <input type="number" id="sp">
   </div>
 
-  <div class="form-group">
+  <div class="row">
     <label>レベル</label>
-    <div class="inline">
-      <input type="number" id="levelNumber" min="1" max="100" value="1">
-      <input type="range" id="levelRange" min="1" max="100" value="1">
-    </div>
+    <input type="number" id="levelInput" min="1" max="100">
+    <input type="range" id="levelRange" min="1" max="100" value="1">
+    <span id="levelValue">1</span>
   </div>
 
-  <div class="form-group">
-    <label>食材</label>
-    <select id="ingredientPattern"></select>
+  <div class="row">
+    <label>食材構成</label>
+    <select id="ingredientPattern">
+      <option value="">ポケモン選択後に選択</option>
+    </select>
   </div>
 
-  <div class="form-group">
+  <div class="row">
     <label>おてつだい時間</label>
-    <div class="inline">
-      <input type="number" placeholder="時間">
-      <input type="number" placeholder="分">
-      <input type="number" placeholder="秒">
-    </div>
+    <input type="number" id="helpHour" placeholder="時" min="0"> :
+    <input type="number" id="helpMin" placeholder="分" min="0" max="59"> :
+    <input type="number" id="helpSec" placeholder="秒" min="0" max="59">
   </div>
 
-  <div class="form-group">
+  <div class="row">
     <label>最大所持数</label>
-    <div class="readonly-box" id="maxCarry">-- 個</div>
+    <span id="maxCarry">---</span>
   </div>
-</section>
+</div>
 
-<section>
+<div class="section">
   <h2>スキル</h2>
 
-  <div class="form-group">
+  <div class="row">
     <label>メインスキル</label>
-    <div class="inline">
-      <input value="（自動設定）" disabled>
-      <select>
-        <option>Lv1</option>
-        <option>Lv2</option>
-        <option>Lv3</option>
-        <option>Lv4</option>
-        <option>Lv5</option>
-        <option>Lv6</option>
-        <option>Lv7</option>
-        <option>Lv8</option>
-      </select>
-    </div>
+    <span id="mainSkillName">（自動）</span>
+    Lv.
+    <select id="mainSkillLv">
+      <option>1</option><option>2</option><option>3</option><option>4</option>
+      <option>5</option><option>6</option><option>7</option><option>8</option>
+    </select>
   </div>
 
-  <div class="form-group"><label>サブスキル Lv10</label><select class="sub-skill"></select></div>
-  <div class="form-group"><label>サブスキル Lv25</label><select class="sub-skill"></select></div>
-  <div class="form-group"><label>サブスキル Lv50</label><select class="sub-skill"></select></div>
-  <div class="form-group"><label>サブスキル Lv75</label><select class="sub-skill"></select></div>
-  <div class="form-group"><label>サブスキル Lv100</label><select class="sub-skill"></select></div>
-</section>
+  <div class="row">
+    <label>サブスキル Lv10</label>
+    <select class="subSkill"></select>
+  </div>
+  <div class="row">
+    <label>サブスキル Lv25</label>
+    <select class="subSkill"></select>
+  </div>
+  <div class="row">
+    <label>サブスキル Lv50</label>
+    <select class="subSkill"></select>
+  </div>
+  <div class="row">
+    <label>サブスキル Lv75</label>
+    <select class="subSkill"></select>
+  </div>
+  <div class="row">
+    <label>サブスキル Lv100</label>
+    <select class="subSkill"></select>
+  </div>
+</div>
 
-<section>
+<div class="section">
   <h2>詳細情報</h2>
 
-  <div class="form-group">
+  <div class="row">
     <label>性格</label>
-    <div class="inline">
-      <select id="nature"></select>
-      <label><input type="checkbox"> まっしろミント使用</label>
-    </div>
+    <select id="nature"></select>
+    <label style="width:auto; margin-left:10px;">
+      <input type="checkbox" id="mint"> まっしろミント使用
+    </label>
   </div>
+  <div id="natureDetail"></div>
 
-  <div class="form-group">
+  <div class="row">
     <label>出会ったフィールド</label>
-    <select></select>
+    <select id="foundField">
+      <option value="">選択してください</option>
+      <option value="ワカクサ本島">ワカクサ本島</option>
+      <option value="シアンの砂浜">シアンの砂浜</option>
+      <option value="トープ洞窟">トープ洞窟</option>
+      <option value="ウノハナ雪原">ウノハナ雪原</option>
+      <option value="ラピスラズリ湖畔">ラピスラズリ湖畔</option>
+      <option value="ゴールド旧発電所">ゴールド旧発電所</option>
+      <option value="アンバー渓谷">アンバー渓谷</option>
+      <option value="ワカクサ本島EX">ワカクサ本島EX</option>
+      <option value="other">その他</option>
+    </select>
   </div>
 
-  <div class="form-group">
-    <label>一緒に眠った時間</label>
-    <div class="inline">
-      <input type="number" placeholder="時間">
-      <input type="number" placeholder="分">
-    </div>
+  <div class="row" id="otherFieldWrapper" style="display:none;">
+    <label></label>
+    <input type="text" id="otherField" placeholder="フィールド名を入力">
   </div>
-</section>
+
+  <div class="row">
+    <label>一緒に眠った時間</label>
+    <input type="number" id="sleepHour" placeholder="時間" min="0">
+    <input type="number" id="sleepMin" placeholder="分" min="0" max="59">
+  </div>
+</div>
+
+<button id="generateBtn">出力テスト</button>
+<pre id="output"></pre>
 
 <script src="script.js"></script>
 </body>
